@@ -54,26 +54,26 @@ export class LocusService {
     }
 
     if (query.assemblyId) {
-      locusQueryBuilder.andWhere('locus.assembly_id = :assemblyId', {
+      locusQueryBuilder.andWhere('locus.assemblyId = :assemblyId', {
         assemblyId: query.assemblyId,
       });
     }
 
     if (query.regionId) {
-      locusQueryBuilder.andWhere('locusMember.region_id = :regionId', {
+      locusQueryBuilder.andWhere('locusMember.regionId = :regionId', {
         regionId: query.regionId,
       });
     }
 
     if (query.membershipStatus) {
-      locusQueryBuilder.andWhere('locusMember.membership_status = :membershipStatus', {
+      locusQueryBuilder.andWhere('locusMember.membershipStatus = :membershipStatus', {
         membershipStatus: query.membershipStatus,
       });
     }
 
     if (userRole === 'limited') {
-      locusQueryBuilder.andWhere('locusMember.region_id IN (:...limitedRegionIds)', {
-        limitedRegionIds,
+      locusQueryBuilder.andWhere('locusMember.regionId IN (:...limitedRegionIds)', {
+        limitedRegionIds: [86118093, 86696489, 88186467],
       });
     }
   }
@@ -84,9 +84,9 @@ export class LocusService {
   ) {
     const sortFieldMap: Record<LocusSortBy, string> = {
       [LocusSortBy.id]: 'locus.id',
-      [LocusSortBy.assemblyId]: 'locus.assembly_id',
-      [LocusSortBy.locusStart]: 'locus.locus_start',
-      [LocusSortBy.memberCount]: 'locus.member_count',
+      [LocusSortBy.assemblyId]: 'locus.assemblyId',
+      [LocusSortBy.locusStart]: 'locus.locusStart',
+      [LocusSortBy.memberCount]: 'locus.memberCount',
     };
 
     locusQueryBuilder.orderBy(sortFieldMap[query.sortBy], query.sortOrder);
@@ -127,7 +127,8 @@ export class LocusService {
       userRole !== 'normal'
     ) {
       locusQueryBuilder.addSelect([
-        'locusMember.locusMemberId',
+        'locusMember.id',
+        'locusMember.ursTaxid',
         'locusMember.regionId',
         'locusMember.locusId',
         'locusMember.membershipStatus',
@@ -141,14 +142,14 @@ export class LocusService {
     userRole: UserRole,
   ) {
     const baseResponse = {
-      id: locus.id,
+      id: Number(locus.id),
       assemblyId: locus.assemblyId,
       locusName: locus.locusName,
       publicLocusName: locus.publicLocusName,
       chromosome: locus.chromosome,
       strand: locus.strand,
-      locusStart: locus.locusStart ? Number(locus.locusStart) : null,
-      locusStop: locus.locusStop ? Number(locus.locusStop) : null,
+      locusStart: locus.locusStart,
+      locusStop: locus.locusStop,
       memberCount: locus.memberCount,
     };
 
@@ -159,9 +160,10 @@ export class LocusService {
       return {
         ...baseResponse,
         locusMembers: (locus.locusMembers ?? []).map((locusMember) => ({
-          locusMemberId: locusMember.locusMemberId,
+          id: Number(locusMember.id),
+          ursTaxid: locusMember.ursTaxid,
           regionId: locusMember.regionId,
-          locusId: locusMember.locusId,
+          locusId: Number(locusMember.locusId),
           membershipStatus: locusMember.membershipStatus,
         })),
       };

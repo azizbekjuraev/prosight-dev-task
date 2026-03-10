@@ -1,34 +1,34 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { LocusMemberEntity } from './locus-member.entity';
 
-@Entity({ name: 'rnc_locus' })
+@Entity({ schema: 'rnacen', name: 'rnc_locus' })
 export class LocusEntity {
-  @PrimaryColumn({ name: 'id', type: 'int' })
-  id: number;
+  @PrimaryColumn({ name: 'id', type: 'bigint' })
+  id: string;
 
-  @Column({ name: 'assembly_id', type: 'varchar', nullable: true })
-  assemblyId: string | null;
+  @Column({ name: 'assembly_id', type: 'text' })
+  assemblyId: string;
 
-  @Column({ name: 'locus_name', type: 'varchar', nullable: true })
-  locusName: string | null;
+  @Column({ name: 'locus_name', type: 'text' })
+  locusName: string;
 
-  @Column({ name: 'public_locus_name', type: 'varchar', nullable: true })
-  publicLocusName: string | null;
+  @Column({ name: 'public_locus_name', type: 'text' })
+  publicLocusName: string;
 
-  @Column({ name: 'chromosome', type: 'varchar', nullable: true })
-  chromosome: string | null;
+  @Column({ name: 'chromosome', type: 'text' })
+  chromosome: string;
 
-  @Column({ name: 'strand', type: 'varchar', nullable: true })
-  strand: string | null;
+  @Column({ name: 'strand', type: 'text' })
+  strand: string;
 
-  @Column({ name: 'locus_start', type: 'bigint', nullable: true })
-  locusStart: string | null;
+  @Column({ name: 'locus_start', type: 'int' })
+  locusStart: number;
 
-  @Column({ name: 'locus_stop', type: 'bigint', nullable: true })
-  locusStop: string | null;
+  @Column({ name: 'locus_stop', type: 'int' })
+  locusStop: number;
 
-  @Column({ name: 'member_count', type: 'int', nullable: true })
-  memberCount: number | null;
+  @Column({ name: 'member_count', type: 'int' })
+  memberCount: number;
 
   @OneToMany(() => LocusMemberEntity, (locusMember) => locusMember.locus)
   locusMembers: LocusMemberEntity[];

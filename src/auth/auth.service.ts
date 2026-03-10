@@ -12,8 +12,6 @@ export class AuthService {
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
 
-    //should add bycript here :
-
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }

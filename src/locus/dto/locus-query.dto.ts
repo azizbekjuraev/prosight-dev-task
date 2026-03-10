@@ -21,9 +21,8 @@ export enum SortOrder {
 export class GetLocusQueryDto {
   @ApiPropertyOptional()
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  id?: number;
+  @IsString()
+  id?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -63,7 +62,7 @@ export class GetLocusQueryDto {
   @Min(1)
   page: number = 1;
 
-  @ApiPropertyOptional({ default: 1000 })
+  @ApiPropertyOptional({ default: 1000, maximum: 1000 })
   @IsOptional()
   @Type(() => Number)
   @IsInt()

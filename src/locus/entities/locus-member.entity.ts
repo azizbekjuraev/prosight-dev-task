@@ -1,19 +1,22 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { LocusEntity } from './locus.entity';
 
-@Entity({ name: 'rnc_locus_members' })
+@Entity({ schema: 'rnacen', name: 'rnc_locus_members' })
 export class LocusMemberEntity {
-  @PrimaryColumn({ name: 'locus_member_id', type: 'int' })
-  locusMemberId: number;
+  @PrimaryColumn({ name: 'id', type: 'bigint' })
+  id: string;
 
-  @Column({ name: 'region_id', type: 'int', nullable: true })
-  regionId: number | null;
+  @Column({ name: 'urs_taxid', type: 'text' })
+  ursTaxid: string;
 
-  @Column({ name: 'locus_id', type: 'int' })
-  locusId: number;
+  @Column({ name: 'region_id', type: 'int' })
+  regionId: number;
 
-  @Column({ name: 'membership_status', type: 'varchar', nullable: true })
-  membershipStatus: string | null;
+  @Column({ name: 'locus_id', type: 'bigint' })
+  locusId: string;
+
+  @Column({ name: 'membership_status', type: 'text' })
+  membershipStatus: string;
 
   @ManyToOne(() => LocusEntity, (locus) => locus.locusMembers, {
     eager: false,

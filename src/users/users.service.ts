@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+export type UserRole = 'admin' | 'normal' | 'limited';
+
 export type User = {
   userId: number,
   username: string,

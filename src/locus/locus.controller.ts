@@ -1,7 +1,8 @@
 import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { LocusService } from './locus.service';
+import { GetLocusQueryDto } from './dto/locus-query.dto';
 
 @ApiTags('locus')
 @ApiBearerAuth()
@@ -12,7 +13,8 @@ export class LocusController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get locus data' })
-  async getLocus(@Query() query: any, @Req() req: any) {
-    return this.locusService.findAll(query, req.user);
+  @ApiResponse({ status: 200, description: 'OK' })
+  getLocus(@Query() query: GetLocusQueryDto, @Req() request: any) {
+    return this.locusService.getLocuses(query, request.user.role);
   }
 }

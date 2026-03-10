@@ -9,7 +9,7 @@ import {
   ApiProperty
 } from '@nestjs/swagger'
 
-class CreateUserDto {
+class LoginUserDto {
   @ApiProperty({ example: "admin", description: "User name" })
   username: string;
 
@@ -29,10 +29,10 @@ export class AuthController {
   @ApiResponse({ status: 200, description: "OK" })
   @ApiResponse({ status: 401, description: "Unauthorized." })
   @ApiBody({
-    type: CreateUserDto
+    type: LoginUserDto
   })
 
-  signIn(@Body() signInDto: CreateUserDto) {
+  signIn(@Body() signInDto: LoginUserDto) {
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 }
